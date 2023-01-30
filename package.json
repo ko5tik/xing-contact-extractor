@@ -1,0 +1,16 @@
+{
+  "name": "xingextractor",
+  "version": "1.0.0",
+  "description": "extract contact data   from xing",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "finalhandler": "^1.2.0",
+    "serve-static": "^1.15.0"
+  }
+}
