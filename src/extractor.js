@@ -39,10 +39,11 @@
                 //  element is there, scroll
                 elem.scrollIntoView();
                 console.log('scrolling....');
-                setTimeout(arguments.callee, 3000);
+                setTimeout(arguments.callee, 1000);
             } else {
                 console.log('got all entries,  retrieve')
-
+                const values = $("li[data-xds='ListItem'] div:not(.ceLLDS) >h2[data-xds='Headline']").map(function(){ return $(this).text()})
+                console.log(values)
             }
         };
 
@@ -66,7 +67,7 @@
         button.style = "top:0;left:0;position:absolute;z-index: 9999"
         button.onclick = () => {
             console.log("clicked!!!!!");
-            GM_sendMessage(extractXINGContacts)
+            GM_sendMessage(extractXINGContacts, Date.now())
             console.log('message sent');
         };
         document.body.appendChild(button);
