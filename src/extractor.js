@@ -3,7 +3,9 @@
 // @namespace    http://www.pribluda.de/
 // @version      0.1
 // @description  extract contact data from xing
-// @include https://www.xing.com/notifications/contacts
+// @match        https://www.xing.com/notifications/contacts
+// @match        https://www.linkedin.com/mynetwork/invite-connect/connections/
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js
 // @author       Konstantin Pribluda
 // @grant        none
 // ==/UserScript==
@@ -12,8 +14,72 @@
 (function () {
 
 
-    const initGui = function() {
-        console.log('GUI initialised');
+    //  init broadcasd channel - shall be accessigle tp both sides
+    const channel = new BroadcastChannel("xing_xtractor");
+
+    /**
+     * laod all contacts from xing page
+     */
+    const loadContacts = function() {
+
+
+        // asynchronously scroll  until element is not there anymore
+        const toHandler = function(){
+            // do some stuff
+            let elem = $("*[data-qa=\"lazy-loader-loading-indicator\"]").get(0);
+            if( elem) {
+                //  element is there, scroll
+                elem.scrollIntoView();
+                console.log('scrolling....');
+                setTimeout(arguments.callee, 3000);
+            } else {
+                console.log('got all entries,  retrieve')
+            }
+        };
+
+        setTimeout(toHandler, 3000);
+
     }
-    console.log('called on xing contact page');
-})();
+
+    const initLinkedIn = function () {
+        console.log('GUI initialised');
+
+        //  create iframe for XING contacts page
+        //const iframe = document.body.appendChild(document.createElement('iframe'));
+        //iframe.style.display = 'none';
+        //iframe.src = 'https://www.xing.com/notifications/contacts';
+
+        //console.log('iframe created');
+
+        // initialise button to start the prrocess
+        var button = document.createElement("Button");
+        button.innerHTML = "Import";
+        button.style = "top:0;left:0;position:absolute;z-index: 9999"
+        button.onclick = () => {
+            console.log("clicked!!!!!");
+            channel.postMessage("trigger iframe");
+            console.log('message sent');
+        };
+        document.body.appendChild(button);
+
+    }
+
+
+    console.log('main entry point');
+
+    if (window.location.href === 'https://www.linkedin.com/mynetwork/invite-connect/connections/') {
+        console.log('on linkedin contact page')
+        initLinkedIn();
+    } else if(window.location.href === 'https://www.xing.com/notifications/contacts') {
+        console.log('on xing contact page. init channel:' + channel);
+        channel.onmessage = function (event) {
+            console.log("yikes!!!!!")
+            console.log('on xing contact page. load contact triggered' + event);
+            loadContacts();
+        };
+
+        console.log('channel on message created')
+    }
+
+})
+();
