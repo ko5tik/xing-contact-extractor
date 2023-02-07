@@ -13,27 +13,36 @@
 
 (function () {
 
+    const extractXINGContacts = '_extract_XING_contacts';
 
-    //  init broadcasd channel - shall be accessigle tp both sides
-    const channel = new BroadcastChannel("xing_xtractor");
+    function GM_onMessage(label, callback) {
+        GM_addValueChangeListener(label, function () {
+            callback.apply(undefined, arguments[2]);
+        });
+    }
+
+    function GM_sendMessage(label) {
+        GM_setValue(label, Array.from(arguments).slice(1));
+    }
 
     /**
      * laod all contacts from xing page
      */
-    const loadContacts = function() {
+    const loadContacts = function () {
 
 
         // asynchronously scroll  until element is not there anymore
-        const toHandler = function(){
+        const toHandler = function () {
             // do some stuff
             let elem = $("*[data-qa=\"lazy-loader-loading-indicator\"]").get(0);
-            if( elem) {
+            if (elem) {
                 //  element is there, scroll
                 elem.scrollIntoView();
                 console.log('scrolling....');
                 setTimeout(arguments.callee, 3000);
             } else {
                 console.log('got all entries,  retrieve')
+
             }
         };
 
@@ -57,7 +66,7 @@
         button.style = "top:0;left:0;position:absolute;z-index: 9999"
         button.onclick = () => {
             console.log("clicked!!!!!");
-            channel.postMessage("trigger iframe");
+            GM_sendMessage(extractXINGContacts)
             console.log('message sent');
         };
         document.body.appendChild(button);
@@ -70,13 +79,12 @@
     if (window.location.href === 'https://www.linkedin.com/mynetwork/invite-connect/connections/') {
         console.log('on linkedin contact page')
         initLinkedIn();
-    } else if(window.location.href === 'https://www.xing.com/notifications/contacts') {
-        console.log('on xing contact page. init channel:' + channel);
-        channel.onmessage = function (event) {
-            console.log("yikes!!!!!")
-            console.log('on xing contact page. load contact triggered' + event);
+    } else if (window.location.href === 'https://www.xing.com/notifications/contacts') {
+        console.log('on xing contact page. init message');
+        GM_onMessage(extractXINGContacts, function (src, message) {
+            console.log('[xing] load contact triggered' + message);
             loadContacts();
-        };
+        });
 
         console.log('channel on message created')
     }
