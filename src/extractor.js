@@ -19,7 +19,7 @@
 
     function GM_onMessage(label, callback) {
         GM_addValueChangeListener(label, function () {
-            console.log('received: ', label, ' => ', arguments[2])
+            console.log('[received]: ', label, ' => ', arguments[2])
             callback.apply(undefined, arguments[2]);
         });
     }
@@ -29,8 +29,30 @@
         GM_setValue(label, Array.from(arguments).slice(1));
     }
 
-    const processContacts = function (src, contacts) {
-        console.log('[LI] ', src, '=>', contacts)
+    /**
+     * process incoming contact on the linked in side
+     * @param contacts
+     */
+    const processContacts = function (contacts) {
+        console.log('[LI] contacts received =>', contacts)
+
+        // open all  contacts asynchronously until they are leaded
+        const toHandler = function () {
+            // do some stuff
+            let elem = $('button.scaffold-finite-scroll__load-button').get(0);
+            if (elem) {
+                //  element is there, scroll
+                elem.click();
+                console.log('[LI] scrolling....');
+                setTimeout(arguments.callee, 1000);
+            } else {
+                //  we scrolled to bottom
+                console.log('[LI] scrolling done');
+
+            }
+
+        }
+        setTimeout(toHandler, 3000);
     }
 
     /**
@@ -76,15 +98,16 @@
         GM_setValue(extractedContacts, '');
 
         GM_onMessage(extractedContacts, function (src, message) {
-            console.log('[LI] contact data recieved' + message);
+            console.log('[LI] contact data recieved ' + message);
             processContacts(src, message);
         });
 
         console.log('[LI] listener in place')
         // initialise button to start the prrocess
         var button = document.createElement("Button");
-        button.innerHTML = "Import";
-        button.style = "top:0;left:0;position:absolute;z-index: 9999"
+        button.innerHTML = "XING Importoieren";
+
+        button.style = "top:0;left:0;position:absolute;z-index: 9999; background: #eb9813; font-size: 16px; border-style: solid black;  justify-content: center; padding: calc(.875rem - 1px) calc(1.5rem - 1px);"
         button.onclick = () => {
             console.log("[LI] clicked!!!!!");
 
