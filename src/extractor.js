@@ -7,7 +7,9 @@
 // @match        https://www.linkedin.com/mynetwork/invite-connect/connections/
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js
 // @author       Konstantin Pribluda
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_openInTab
 // ==/UserScript==
 
 
@@ -124,12 +126,13 @@
 
                 console.log(values);
 
+                // store contacts and fire up importer page
                 GM_setValue(extractedContacts, values)
                 console.log('[XING] contacts saved. open LI')
                 GM_openInTab(liContactsPage, {active: true});
 
                 //  and close  himself
-               // window.close();
+                window.close();
                 console.log('[XING] window closed')
             }
         };
@@ -169,8 +172,8 @@
         console.log('[LI] on linkedin contact page')
         //  are there saved contact to import?
         var contacts = GM_getValue(extractedContacts)
-        console.log('[LI] contacts:' , contacts)
-        if(contacts) {
+        console.log('[LI] contacts:', contacts)
+        if (contacts) {
             console.log('[LI]  importing contacts')
             GM_setValue(extractedContacts, undefined)
             liProcessIncomingContacts(contacts)
@@ -188,8 +191,6 @@
             GM_setValue(doExtractXINGContacts, '');
             xingLoadContacts();
         }
-
-
     }
 
 })
