@@ -33,7 +33,7 @@
      * process incoming contact on the linked in side
      * @param contacts
      */
-    const processContacts = function (contacts) {
+    const liProcessIncomingContacts = function (contacts) {
         console.log('[LI] contacts received =>', contacts)
 
         // open all  contacts asynchronously until they are leaded
@@ -47,18 +47,60 @@
                 setTimeout(arguments.callee, 1000);
             } else {
                 //  we scrolled to bottom
-                console.log('[LI] scrolling done');
+                console.log('[LI] scrolling done crete UI');
+                window.scrollTo(0, 0)
 
+                var contactPanel = $("<div/>", {
+                    css: {
+                        "position": "absolute",
+                        "top": 50,
+                        "right": 0,
+                        "border": "1px solid #000",
+                        'height': 300,
+                        'overflow-y': 'auto',
+                        "padding": "5px",
+                        "z-index": "100",
+                        "background-color": "#eb9813"
+                    }
+                });
+
+                var list = $('<ul/>', {
+                    css: {
+                        'list-style': 'none',
+                        'padding': 3,
+                        'font-size': '10px',
+                        'text-align':'left'
+                    }
+                })
+
+                contacts.forEach((name) => {
+                    if(name.length > 1  && !document.body.textContent.includes(name)) {
+                        list.append($('<li/>').text(name));
+                    } else {
+                        console.log('[LI] skip name:' , name);
+                    }
+                })
+
+                //  we have complete list now filter it
+                //let  remaining = contacts.filter((name) => {
+                //    console.log('contains ' , name , '=>' , document.body.textContent.includes(name));
+                //    let result = name.length > 1 && !document.body.textContent.includes(name);
+                //    return result;
+                //});
+
+                contactPanel.append(list)
+                $('body').append(contactPanel);
             }
+
 
         }
         setTimeout(toHandler, 3000);
     }
 
     /**
-     * laod all contacts from xing page
+     * laod all contacts from xing page,  then stire it into variable
      */
-    const loadContacts = function () {
+    const xingLoadContacts = function () {
 
         // asynchronously scroll  until element is not there anymore.
         //  then send message and terminate himself
@@ -76,11 +118,10 @@
                     return $(this).text()
                 }).get()
 
-                //values.push(Date.now())
-
                 console.log(values)
                 GM_sendMessage(extractedContacts, values)
                 console.log('[XING] message sent')
+
                 //  and close  himself
                 window.close();
                 console.log('[XING] window closed')
@@ -94,18 +135,18 @@
     const initLinkedIn = function () {
         console.log('[LI] init GUI');
 
-        console.log('current;', GM_getValue(extractedContacts));
+        //  remove extracted contacts in case  so event will be trigegred
         GM_setValue(extractedContacts, '');
 
         GM_onMessage(extractedContacts, function (src, message) {
             console.log('[LI] contact data recieved ' + message);
-            processContacts(src, message);
+            liProcessIncomingContacts(src, message);
         });
 
         console.log('[LI] listener in place')
         // initialise button to start the prrocess
         var button = document.createElement("Button");
-        button.innerHTML = "XING Importoieren";
+        button.innerHTML = "XING Importieren";
 
         button.style = "top:0;left:0;position:absolute;z-index: 9999; background: #eb9813; font-size: 16px; border-style: solid black;  justify-content: center; padding: calc(.875rem - 1px) calc(1.5rem - 1px);"
         button.onclick = () => {
@@ -134,7 +175,7 @@
         if (GM_getValue(doExtractXINGContacts) > Date.now()) {
             console.log('[XING]  extracting');
             GM_setValue(doExtractXINGContacts, '');
-            loadContacts();
+            xingLoadContacts();
         }
 
 
