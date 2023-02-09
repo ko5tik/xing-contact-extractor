@@ -14,6 +14,8 @@
 (function () {
 
     const xingContactPage = 'https://www.xing.com/notifications/contacts';
+    const liContactsPage = ' https://www.linkedin.com/mynetwork/invite-connect/connections/';
+
     const doExtractXINGContacts = '_extract_XING_contacts';
     const extractedContacts = '_XING_contacts';
 
@@ -34,6 +36,8 @@
      * @param contacts
      */
     const liProcessIncomingContacts = function (contacts) {
+
+
         console.log('[LI] contacts received =>', contacts)
 
         // open all  contacts asynchronously until they are leaded
@@ -69,15 +73,15 @@
                         'list-style': 'none',
                         'padding': 3,
                         'font-size': '10px',
-                        'text-align':'left'
+                        'text-align': 'left'
                     }
                 })
 
                 contacts.forEach((name) => {
-                    if(name.length > 1  && !document.body.textContent.includes(name)) {
+                    if (name.length > 1 && !document.body.textContent.includes(name)) {
                         list.append($('<li/>').text(name));
                     } else {
-                        console.log('[LI] skip name:' , name);
+                        console.log('[LI] skip name:', name);
                     }
                 })
 
@@ -118,12 +122,14 @@
                     return $(this).text()
                 }).get()
 
-                console.log(values)
-                GM_sendMessage(extractedContacts, values)
-                console.log('[XING] message sent')
+                console.log(values);
+
+                GM_setValue(extractedContacts, values)
+                console.log('[XING] contacts saved. open LI')
+                GM_openInTab(liContactsPage, {active: true});
 
                 //  and close  himself
-                window.close();
+               // window.close();
                 console.log('[XING] window closed')
             }
         };
@@ -138,12 +144,6 @@
         //  remove extracted contacts in case  so event will be trigegred
         GM_setValue(extractedContacts, '');
 
-        GM_onMessage(extractedContacts, function (src, message) {
-            console.log('[LI] contact data recieved ' + message);
-            liProcessIncomingContacts(src, message);
-        });
-
-        console.log('[LI] listener in place')
         // initialise button to start the prrocess
         var button = document.createElement("Button");
         button.innerHTML = "XING Importieren";
@@ -164,9 +164,20 @@
 
     console.log('main entry point');
 
+    //  initialisation
     if (window.location.href === 'https://www.linkedin.com/mynetwork/invite-connect/connections/') {
-        console.log('on linkedin contact page')
-        initLinkedIn();
+        console.log('[LI] on linkedin contact page')
+        //  are there saved contact to import?
+        var contacts = GM_getValue(extractedContacts)
+        console.log('[LI] contacts:' , contacts)
+        if(contacts) {
+            console.log('[LI]  importing contacts')
+            GM_setValue(extractedContacts, undefined)
+            liProcessIncomingContacts(contacts)
+        } else {
+            console.log('[LI] no  contacts, create button')
+            initLinkedIn();
+        }
     } else if (window.location.href === 'https://www.xing.com/notifications/contacts') {
         console.log('[XING] on xing contact page. request is present:', GM_getValue(doExtractXINGContacts));
 
