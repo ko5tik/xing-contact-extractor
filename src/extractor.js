@@ -21,18 +21,6 @@
     const doExtractXINGContacts = '_extract_XING_contacts';
     const extractedContacts = '_XING_contacts';
 
-    function GM_onMessage(label, callback) {
-        GM_addValueChangeListener(label, function () {
-            console.log('[received]: ', label, ' => ', arguments[2])
-            callback.apply(undefined, arguments[2]);
-        });
-    }
-
-    function GM_sendMessage(label) {
-        console.log('send:', label, ' => ', Array.from(arguments).slice(1))
-        GM_setValue(label, Array.from(arguments).slice(1));
-    }
-
     /**
      * process incoming contact on the linked in side
      * @param contacts
@@ -86,13 +74,6 @@
                         console.log('[LI] skip name:', name);
                     }
                 })
-
-                //  we have complete list now filter it
-                //let  remaining = contacts.filter((name) => {
-                //    console.log('contains ' , name , '=>' , document.body.textContent.includes(name));
-                //    let result = name.length > 1 && !document.body.textContent.includes(name);
-                //    return result;
-                //});
 
                 contactPanel.append(list)
                 $('body').append(contactPanel);
