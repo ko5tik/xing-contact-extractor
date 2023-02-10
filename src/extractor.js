@@ -22,11 +22,19 @@
     const extractedContacts = '_XING_contacts';
 
     /**
-     * process incoming contact on the linked in side
+     * dismiss GUI on linked in
+     */
+    const liDismissGui = function () {
+        // remove stored contact data  so GUI is not fired up again
+        // until new import
+        GM_setValue(extractedContacts, undefined);
+    }
+
+    /**
+     * process incoming contact list on the linked in side
      * @param contacts
      */
     const liProcessIncomingContacts = function (contacts) {
-
 
         console.log('[LI] contacts received =>', contacts)
 
@@ -44,19 +52,38 @@
                 console.log('[LI] scrolling done crete UI');
                 window.scrollTo(0, 0)
 
-                var contactPanel = $("<div/>", {
+                // whip up some GUI
+                var floatPanel = $('<div/>', {
                     css: {
                         "position": "absolute",
                         "top": 50,
                         "right": 0,
                         "border": "1px solid #000",
                         'height': 300,
-                        'overflow-y': 'auto',
-                        "padding": "5px",
                         "z-index": "100",
                         "background-color": "#eb9813"
                     }
                 });
+                $('body').append(floatPanel);
+
+                var dismiss = $('<button/>').text('x dismiss').click(() => {
+                    liDismissGui();
+                    floatPanel.hide();
+                });
+
+                floatPanel.append(dismiss);
+
+
+                var contactPanel = $("<div/>", {
+                    css: {
+                        'max-height': '100%',
+                        'overflow-y': 'auto',
+                        "padding": "5px",
+                        "background-color": "#eb9813"
+                    }
+                });
+
+                floatPanel.append(contactPanel)
 
                 var list = $('<ul/>', {
                     css: {
@@ -69,6 +96,9 @@
 
                 contacts.forEach((name) => {
                     if (name.length > 1 && !document.body.textContent.includes(name)) {
+                        //  name has to be longer than 1 (those are akphabet separators)
+                        //  and not contained on LI contact page
+                        // TODO: link to import comes here
                         list.append($('<li/>').text(name));
                     } else {
                         console.log('[LI] skip name:', name);
@@ -76,9 +106,9 @@
                 })
 
                 contactPanel.append(list)
-                $('body').append(contactPanel);
-            }
 
+
+            }
 
         }
         setTimeout(toHandler, 3000);
@@ -156,7 +186,8 @@
         console.log('[LI] contacts:', contacts)
         if (contacts) {
             console.log('[LI]  importing contacts')
-            GM_setValue(extractedContacts, undefined)
+
+            //GM_setValue(extractedContacts, undefined)
             liProcessIncomingContacts(contacts)
         } else {
             console.log('[LI] no  contacts, create button')
