@@ -17,6 +17,7 @@
 
     const xingContactPage = 'https://www.xing.com/notifications/contacts';
     const liContactsPage = ' https://www.linkedin.com/mynetwork/invite-connect/connections/';
+    const liSearchUrl = 'https://www.linkedin.com/search/results/all/?keywords=';
 
     const doExtractXINGContacts = '_extract_XING_contacts';
     const extractedContacts = '_XING_contacts';
@@ -99,7 +100,10 @@
                         //  name has to be longer than 1 (those are akphabet separators)
                         //  and not contained on LI contact page
                         // TODO: link to import comes here
-                        list.append($('<li/>').text(name));
+                        list.append($('<li/>').append($('<a/>', {
+                            'href': liSearchUrl + name,
+                            'target': '_blank'
+                        }).text(name)));
                     } else {
                         console.log('[LI] skip name:', name);
                     }
