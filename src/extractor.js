@@ -49,9 +49,6 @@
                 console.log('[LI] scrolling....');
                 setTimeout(arguments.callee, 1000);
             } else {
-                //  we scrolled to bottom
-                console.log('[LI] scrolling done crete UI');
-                window.scrollTo(0, 0)
 
                 // whip up some GUI
                 var floatPanel = $('<div/>', {
@@ -74,6 +71,8 @@
 
                 floatPanel.append(dismiss);
 
+                var count = $('<div/>');
+                floatPanel.append(count);
 
                 var contactPanel = $("<div/>", {
                     css: {
@@ -95,22 +94,31 @@
                     }
                 })
 
+                let c = 0;
+                const textContent = document.body.textContent.toLowerCase();
                 contacts.forEach((name) => {
-                    if (name.length > 1 && !document.body.textContent.includes(name)) {
-                        //  name has to be longer than 1 (those are akphabet separators)
+                    if (name.length > 1 && !textContent.includes(name.toLowerCase())) {
+                        //  name has to be longer than 1 (those are alphabet separators)
                         //  and not contained on LI contact page
                         // TODO: link to import comes here
                         list.append($('<li/>').append($('<a/>', {
                             'href': liSearchUrl + name,
                             'target': '_blank'
                         }).text(name)));
+                        c++;
                     } else {
                         console.log('[LI] skip name:', name);
                     }
                 })
 
-                contactPanel.append(list)
+                count.text(c + ' Kontakte');
 
+                contactPanel.append(list);
+
+
+               //  we scrolled to bottom,   back to top
+                console.log('[LI] scrolling done crete UI');
+                window.scrollTo(0, 0)
 
             }
 
@@ -164,7 +172,7 @@
 
         // initialise button to start the prrocess
         var button = document.createElement("Button");
-        button.innerHTML = "XING Importieren";
+        button.innerHTML = "XING Kontakte Importieren";
 
         button.style = "top:0;left:0;position:absolute;z-index: 9999; background: #eb9813; font-size: 16px; border-style: solid black;  justify-content: center; padding: calc(.875rem - 1px) calc(1.5rem - 1px);"
         button.onclick = () => {
