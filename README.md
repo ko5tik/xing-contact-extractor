@@ -30,5 +30,5 @@ LinkedIn zu importieren sofern diese noch nicht da sind.
 
 
 Liste von Kontakten  erscheint danach rechts oben. Einfach auf Namen clicken
-um nach dere bei LI zu suchen
+um nach dere bei LI zu suchen. Wemm alles importiert ist, kann man den Skript einfach entfernen. 
 
