@@ -14,6 +14,21 @@ LinkedIn zu importieren sofern diese noch nicht da sind.
 
 ### Wie funtkioniert es
 
+0.  Quellcode Review machen
+
+     Sie sollen keine UserScripts installieren wens sie nicht sicher sind 
+1.  Tampermonkey installieren
+
+     Das ist ein Script manager Plugin für Browser.  (https://www.tampermonkey.net/)
+2.   Script installieren 
+
+     (https://raw.githubusercontent.com/ko5tik/xing-contact-extractor/main/src/extractor.js)
+3. Kontakt Seite von LI aufrufen
+
+     (https://www.linkedin.com/mynetwork/invite-connect/connections/)
+4. Orangene Button betätigen
 
 
+Liste von Kontakten  erscheint danach rechts oben. Einfach auf Namen clicken
+um nach dere bei LI zu suchen
 
