@@ -22,7 +22,7 @@ LinkedIn zu importieren sofern diese noch nicht da sind.
      Das ist ein Script manager Plugin für Browser.  (https://www.tampermonkey.net/)
 2.   Script installieren 
 
-     (https://raw.githubusercontent.com/ko5tik/xing-contact-extractor/main/src/extractor.js)
+     (https://raw.githubusercontent.com/ko5tik/xing-contact-extractor/main/src/extractor.user.js)
 3. Kontakt Seite von LI aufrufen
 
      (https://www.linkedin.com/mynetwork/invite-connect/connections/)
