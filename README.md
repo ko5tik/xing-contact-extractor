@@ -16,7 +16,7 @@ LinkedIn zu importieren, sofern diese noch nicht da sind. Diese Daten werden lok
 
 0.  Quellcode Review machen
 
-     Sie sollen keine UserScripts installieren wens sie nicht sicher sind. Bitte schauen si siech [die Quellcode an](https://github.com/ko5tik/xing-contact-extractor/blob/main/src/extractor.user.js).
+     Sie sollen keine UserScripts installieren wens sie nicht sicher sind. Bitte schauen sie sich [die Quellcode an](https://github.com/ko5tik/xing-contact-extractor/blob/main/src/extractor.user.js).
      Es öffnet neue Tabs von XING und LinkedIn, und liest die darin vorhandene Daten aus. Es werden Ihre aktuell gespeicherte Login-Daten verwendet. Liste der XING-Kontakte wird lokal gespeichert und später entfernt.    
 1.  Tampermonkey installieren
 
