@@ -5,7 +5,7 @@ UserScript hilft dabei die Kontakte zu migrieren.
 
 ### Garantie
 
-Es gibt keine.  Benutzung auf eigene Gefahr. 
+Es gibt keine. Benutzung auf eigene Gefahr. 
 
 ### Datenschutz
 
@@ -16,10 +16,11 @@ LinkedIn zu importieren, sofern diese noch nicht da sind.
 
 0.  Quellcode Review machen
 
-     Sie sollen keine UserScripts installieren wens sie nicht sicher sind 
+     Sie sollen keine UserScripts installieren wens sie nicht sicher sind. Bitte schauen si siech [die Quellcode an](https://github.com/ko5tik/xing-contact-extractor/blob/main/src/extractor.user.js).
+     Es öffnet neue Tabs von XING und LinkedIn, und liest die darin vorhandene Daten aus. Es werden Ihre aktuell gespeicherte Login-Daten verwendet. Liste der XING-Kontakte wird lokal gespeichert und später entfernt.    
 1.  Tampermonkey installieren
 
-     Das ist ein Script manager Plugin für Browser.  (https://www.tampermonkey.net/)
+     Das ist ein Script-Mmanager Plugin für Browser.  (https://www.tampermonkey.net/)
 2.   Script installieren 
 
      (https://raw.githubusercontent.com/ko5tik/xing-contact-extractor/main/src/extractor.user.js)
