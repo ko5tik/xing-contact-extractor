@@ -9,8 +9,8 @@ Es gibt keine. Benutzung auf eigene Gefahr.
 
 ### Datenschutz
 
-Skript selbst sammelt keine Daten. Es sammelt die Kontakt-Daten aus Ihrem Account bei XING, und versucht diese bei 
-LinkedIn zu importieren, sofern diese noch nicht da sind. 
+Skript selbst sammelt keine Daten. Es liest die Kontakt-Daten aus Ihrem Account bei XING aus, und versucht diese bei 
+LinkedIn zu importieren, sofern diese noch nicht da sind. Diese Daten werden lokal gespeichert und werden entfernt, nachdem man auf **dismiss**-Button gedr&uuml;ckt hat. 
 
 ### Wie funtkioniert es
 
