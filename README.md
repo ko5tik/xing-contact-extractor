@@ -29,6 +29,19 @@ LinkedIn zu importieren, sofern diese noch nicht da sind. Diese Daten werden lok
      (https://www.linkedin.com/mynetwork/invite-connect/connections/)
 4. Orangenes Button betätigen
 
-Liste von Kontakten erscheint danach rechts oben. Einfach auf Namen clicken
-um nach deren bei LI zu suchen. Wenn alles importiert ist, kann man dem Skript einfach entfernen. 
+Folgendes sollte danach passieren:
+
+- XING-Kontaktseite wird aufgemacht, und gescrollt bis zum Ende. Dabei werden die Kontakte ausgelesen. (Kann dauern, wenn es viele Kontakte sind)
+- Kontaktseite von Linked-In wird aufgemacht, und nach unten bis zum Ende durchgescrollt. Dabei werden die Kontaktnamen abgeglichen. Die, die schon bei LinkedIn vorhanden sind, werden ausgefiltert (Kann dauern,  wenn es sehr viele sind) 
+- Eine Liste mit Kontakten von XING, die nicht bei LinkedIn gefunden wurdern wird angezeigt. Auf die Links klicken und suchen (Suche öffnet sich in einen neuen Tab)
+
+
+### Bei Problemen
+
+Sollte es yu Problemen kommen, bitte mich kontaktieren. Und Konsolen-Ausgabe zukommen lassen.
+
+
+###  Kan mann noch ....
+
+Klar kann man es - Ich kann auch eine spezifische L&ouml;sung entwicklen, um Daten aus anderen Quellen yu lesen und in anderen Form darzustellen. Ich Entwickle Software. Einfach mich ansprechen.       
 
